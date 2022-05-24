@@ -2,7 +2,7 @@ provider "helm" {
   kubernetes {
   host                   = "https://${google_container_cluster.primary.endpoint}"
   token                  = "${data.google_client_config.default.access_token}"
-  cluster_ca_certificate = "${base64decode(google_container_cluster.primary.master_auth.0.cluster_ca_certificate)}"
+  cluster_ca_certificate = "${base64decode(data.google_container_cluster.primary.master_auth.0.cluster_ca_certificate)}"
   }
 }
 
@@ -15,10 +15,6 @@ resource "helm_release" "nginx_ingress" {
   chart      = var.nginx_ingress_chart
   version    = var.nginx_ingress_chart_version
   atomic     = true
-  depends_on = [
-    google_container_cluster.primary,
-    google_container_node_pool.primary_nodes
-  ]
   dynamic "set" {
     for_each = var.nginx_ingress_helm_override
     content {
@@ -45,8 +41,4 @@ resource "helm_release" "grafana" {
       value = set.value["value"]
     }
   }
-  depends_on = [
-    google_container_cluster.primary,
-    google_container_node_pool.primary_nodes
-  ]
 }
