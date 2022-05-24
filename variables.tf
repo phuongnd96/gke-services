@@ -18,8 +18,8 @@ variable "grafana_helm_override" {
 
   default = [
     {
-      name = "bot"
-      value = "bot"
+      name = ""
+      value = ""
     },
   ]
 }
@@ -30,8 +30,8 @@ variable "nginx_ingress_helm_override" {
 
   default = [
     {
-      name = "bot"
-      value = "bot"
+      name = ""
+      value = ""
     },
   ]
 }
